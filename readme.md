@@ -1,5 +1,2 @@
-# Lab 2
+# Lab 3 - ADT: Array List and Linked List
 
-### Required Dependencies
-
-python -m pip install -U matplotlib
