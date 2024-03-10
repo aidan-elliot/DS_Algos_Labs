@@ -1,2 +1,2 @@
-# Lab 5 - Queue
+# Lab 7 - Quick Sort & Insertion Sort
 
