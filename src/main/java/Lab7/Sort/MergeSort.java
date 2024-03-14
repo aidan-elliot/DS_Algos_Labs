@@ -1,56 +1,102 @@
 package Lab7.Sort;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class MergeSort {
-    public static int[] mergeSort(int[] array) {
-        return mergeSort(array, 0, array.length - 1);
+
+    // Method to create single-item queues from a queue of items
+    public static <T extends Comparable<T>> Queue<Queue<T>> makeSingleItemQueues(Queue<T> items) {
+        Queue<Queue<T>> singleItemQueues = new LinkedList<>();
+        for (T item : items) {
+            Queue<T> singleItemQueue = new LinkedList<>();
+            singleItemQueue.add(item);
+            singleItemQueues.add(singleItemQueue);
+        }
+        return singleItemQueues;
     }
 
-    private static int[] mergeSort(int[] array, int begin, int end) {
-        if (begin < end) {
-            int mid = (begin + end) / 2;
-            mergeSort(array, begin, mid);
-            mergeSort(array, mid + 1, end);
-            merge(array, begin, mid, end);
-        }
-        return array;
-    }
-
-    private static void merge(int[] array, int begin, int mid, int end) {
-        int n1 = mid - begin + 1;
-        int n2 = end - mid;
-
-        int[] left = new int[n1];
-        int[] right = new int[n2];
-
-        for (int i = 0; i < n1; ++i) {
-            left[i] = array[begin + i];
-        }
-        for (int j = 0; j < n2; ++j) {
-            right[j] = array[mid + 1 + j];
-        }
-
-        int i = 0, j = 0;
-        int k = begin;
-        while (i < n1 && j < n2) {
-            if (left[i] <= right[j]) {
-                array[k] = left[i];
-                i++;
+    // Method to merge two sorted queues into a single sorted queue
+    public static <T extends Comparable<T>> Queue<T> mergeSortedQueues(Queue<T> q1, Queue<T> q2) {
+        Queue<T> mergedQueue = new LinkedList<>();
+        while (!q1.isEmpty() || !q2.isEmpty()) {
+            if (q1.isEmpty()) {
+                mergedQueue.add(q2.remove());
+            } else if (q2.isEmpty()) {
+                mergedQueue.add(q1.remove());
             } else {
-                array[k] = right[j];
-                j++;
+                // Compare ignoring case if T is String
+                if (q1.peek() instanceof String && q2.peek() instanceof String) {
+                    String s1 = ((String) q1.peek()).toLowerCase();
+                    String s2 = ((String) q2.peek()).toLowerCase();
+                    if (s1.compareTo(s2) <= 0) {
+                        mergedQueue.add(q1.remove());
+                    } else {
+                        mergedQueue.add(q2.remove());
+                    }
+                } else {
+                    if (q1.peek().compareTo(q2.peek()) <= 0) {
+                        mergedQueue.add(q1.remove());
+                    } else {
+                        mergedQueue.add(q2.remove());
+                    }
+                }
             }
-            k++;
+        }
+        return mergedQueue;
+    }
+
+
+    // Method to perform merge sort on a queue of items
+    public static <T extends Comparable<T>> Queue<T> mergeSort(Queue<T> items) {
+        if (items.size() <= 1) {
+            return items;
         }
 
-        while (i < n1) {
-            array[k] = left[i];
-            i++;
-            k++;
+        // Split the items into two halves
+        Queue<Queue<T>> singleItemQueues = makeSingleItemQueues(items);
+        Queue<T> leftHalf = new LinkedList<>();
+        Queue<T> rightHalf = new LinkedList<>();
+        int size = singleItemQueues.size();
+
+        for (int i = 0; i < size / 2; i++) {
+            leftHalf.add(singleItemQueues.remove().remove());
+        }
+        while (!singleItemQueues.isEmpty()) {
+            rightHalf.add(singleItemQueues.remove().remove());
         }
 
-        while (j < n2) {
-            array[k] = right[j];
-            j++;
-            k++;
-        }
+        // Recursively sort the left and right halves
+        Queue<T> sortedLeft = mergeSort(leftHalf);
+        Queue<T> sortedRight = mergeSort(rightHalf);
+
+        // Merge the sorted left and right halves
+        return mergeSortedQueues(sortedLeft, sortedRight);
+    }
+
+    // Main method to test the merge sort implementation
+    public static void main(String[] args) {
+        // Creating a queue of students' names
+        Queue<String> students = new LinkedList<>();
+        students.add("Jay");
+        students.add("ali");
+        students.add("Deepa");
+
+        // Sorting the students' names using merge sort
+        Queue<String> sortedStudents = mergeSort(students);
+
+        // Creating a queue of numbers
+        Queue<Integer> numbers = new LinkedList<>();
+        numbers.add(4);
+        numbers.add(2);
+        numbers.add(5);
+
+        // Sorting the numbers using merge sort
+        Queue<Integer> sortedNumbers = mergeSort(numbers);
+
+        // Printing the sorted students' names and numbers
+        System.out.println("Sorted students: " + sortedStudents);
+        System.out.println("Sorted numbers: " + sortedNumbers);
     }
 }
+
+
