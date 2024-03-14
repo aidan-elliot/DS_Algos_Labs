@@ -1,2 +1,2 @@
-# Lab 7 - Quick Sort & Insertion Sort
+# Lab 8 - Merge Sort
 
