@@ -1,2 +1,2 @@
-# Lab 7 - Quick Sort & Insertion Sort
+# Lab 9 - Linear & Binary Sort
 
