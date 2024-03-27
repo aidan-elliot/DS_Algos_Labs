@@ -1,2 +1,2 @@
-# Lab 9 - Linear & Binary Sort
+# Lab 10 - Hashing
 
