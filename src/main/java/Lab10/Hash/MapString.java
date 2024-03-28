@@ -2,10 +2,6 @@ package Lab10.Hash;
 
 import java.util.Scanner;
 
-/**
- * This class demonstrates the use of a dynamically allocated array to implement a simple hash table
- * with linear probing for collision resolution. It allows adding strings to the hash table and viewing its current state.
- */
 public class MapString {
     private static final int SIZE = 100; // Size of the hash table
     private static String[] stringBuckets = new String[SIZE]; // The hash table
@@ -15,11 +11,12 @@ public class MapString {
         boolean running = true;
 
         while (running) {
-            System.out.println("\nMenu:");
-            System.out.println("1. Add a string to the hashtable");
-            System.out.println("2. View the hashtable");
-            System.out.println("3. Exit");
-            System.out.print("Choose an option: ");
+            System.out.println("\n========================================");
+            System.out.println("Option 1 - Add a string to the hashtable");
+            System.out.println("Option 2 - View the hashtable");
+            System.out.println("Option 2 - Exit");
+            System.out.println("========================================");
+            System.out.print("Type a number to choose an option: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
@@ -74,14 +71,14 @@ public class MapString {
     }
 
     /**
-     * Prints the current state of the hashtable, showing which slots are filled and with what strings.
+     * print the current state of the hashtable, showing which slots are filled and with what strings.
      */
     private static void printHashtable() {
         System.out.println("Current hashtable:");
         for (int i = 0; i < SIZE; i++) {
-            if (stringBuckets[i] != null) {
-                System.out.println(i + ": " + stringBuckets[i]);
-            }
+            // Always print the index, but indicate if a slot is empty or show its content
+            String content = stringBuckets[i] == null ? "null" : stringBuckets[i];
+            System.out.println(i + ": " + content);
         }
     }
 }
