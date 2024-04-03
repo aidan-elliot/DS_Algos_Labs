@@ -1,2 +1,2 @@
-# Lab 10 - Hashing
+# Lab 11 - Depth First Search
 
