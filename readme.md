@@ -1,2 +1,2 @@
-# Lab 10 - Hashing
+# Lab 12 - Breadth First Search
 
